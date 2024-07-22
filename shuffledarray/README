@@ -1,0 +1,12 @@
+# ShuffledArray
+
+This program generates a list of shuffled integers between 0 and N-1.
+
+$ ./shuffledarray [--size SIZE] [--seed SEED]
+
+Options:
+  --help      : this help
+  --size SIZE : default 10
+  --seed SEED : random generator setting
+
+Here I whote a post about it: gemini://fallible.dev/2021/shuffledarrays.gmi
