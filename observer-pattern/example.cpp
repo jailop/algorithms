@@ -1,4 +1,25 @@
-#include "weathersubject.h"
+#include <iostream>
+#include <vector>
+
+class WeatherObserver {
+    public:
+        void update(int& value);
+};
+
+class WeatherSubject {
+    public:
+        void setWeather(int grades);
+        bool attach(WeatherObserver* observer);
+        bool deattach(WeatherObserver* observer);
+        void notify();
+    private:
+        int _grades = 0;
+        std::vector<WeatherObserver*> _observers;
+};
+
+void WeatherObserver::update(int& value) {
+    std::cout << value << std::endl;    
+}
 
 void WeatherSubject::setWeather(int grades) {
     _grades = grades;
@@ -26,4 +47,13 @@ void WeatherSubject::notify() {
     for (std::vector<WeatherObserver*>::iterator it = _observers.begin(); it != _observers.end(); it++) {
         (*it)->update(_grades);
     }
+}
+
+int main() {
+    WeatherSubject ws = WeatherSubject();
+    WeatherObserver wo1 = WeatherObserver();
+    WeatherObserver wo2 = WeatherObserver();
+    ws.attach(&wo1);
+    ws.attach(&wo2);
+    ws.setWeather(35);
 }

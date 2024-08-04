@@ -1,5 +1,5 @@
-#include <weathersubject.h>
-#include <weatherobserver.h>
+#include "weathersubject.h"
+#include "weatherobserver.h"
 
 int main() {
     WeatherSubject ws = WeatherSubject();
