@@ -10,16 +10,18 @@ const CrossIndexError = error {
     InvalidArrays,
 };
 
-/// Look for indices where the search criteria is true.
+/// Look for indices which search criteria is true for.
 ///
 /// Arguments:
 ///
-///     T : type of data paramenters
+///     T : type of data parameters
 ///     res : an array list to return results
 ///     x : first array
 ///     y : second array
-///     left : left index position to start the search
-///     right : right index position to end the search
+///     left : left index position to start the search.
+///         For the initial call, it should be 0.
+///     right : right index position to end the search.
+///         For the client call, it should be len - 1.
 ///
 /// Assumptions:
 ///     
