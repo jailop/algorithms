@@ -1,6 +1,6 @@
 # Leftist Heap Tree
 
-The leftist heap tree supports operations `findMin` on $\mathit{O}(1)$ time and
+The leftist heap tree supports operations `findMin` in $\mathit{O}(1)$ time and
 `insert`, `merge`, and `delete` in $\mathit{O}(log_n)$.  The leaftist tree has
 the property that in each node, the shortest path on the left is at least as
 long as on the right side. It doesn't matter if the tree is unbalanced, but
