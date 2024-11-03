@@ -4,8 +4,6 @@
 //!
 //! Brass, P. (2008). Advanced Data Structures. Cambridge University Press.
 //! pp. 227-234
-//!
-//! (c) 2024 - Jaime Lopez <https://github.com/jailop>
 
 const HeapNode = @import("heapnode.zig").HeapNode;
 

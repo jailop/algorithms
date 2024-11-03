@@ -4,8 +4,6 @@
 //!
 //! Brass, P. (2008). Advanced Data Structures. Cambridge University Press.
 //! pp. 227-234
-//!
-//! (c) 2024 - Jaime Lopez <https://github.com/jailop>
 
 const std = @import("std");
 const HeapNode = @import("heapnode.zig").HeapNode;
@@ -114,37 +112,8 @@ pub fn HeapTree(T: type) type {
         pub fn print(self: @This()) void {
             if (self.root) |root| {
                 root.print(0);
-            } {
-                std.debug.print("{s}\n", .{"Empty tree."});
             }
         }
     };
 }
 
-pub fn main() !void {
-    const allocator = std.heap.page_allocator;
-    var tree = HeapTree(u8){.allocator = allocator};
-    defer tree.deinit();
-    const keys = [_]u8{
-        15, 27, 22, 35, 40, 13, 9,
-        10, 5, 6, 3,
-        31, 16, 42, 33, 37, 41, 21,
-        30, 32, 29, 23, 8, 11, 28,
-    };
-    
-    std.debug.print("\n----- INPUT -----\n", .{});
-    for (keys) |key| {
-        std.debug.print("{} ", .{key});
-    }
-    std.debug.print("\n", .{});
-    
-    std.debug.print("\n----- TREE -----\n", .{});
-    tree.insertMany(&keys);
-    tree.print();
-
-    std.debug.print("\n----- OUTPUT -----\n", .{});
-    while (tree.deleteMin()) |key| {
-        std.debug.print("{d} ", .{key});
-    }
-    std.debug.print("\n", .{});
-}
