@@ -39,7 +39,6 @@ pub fn HeapNode(T: type) type {
     };
 }
 
-
 test "Heap Node" {
     const node = HeapNode(u8){.key = 5};
     try std.testing.expectEqual(node.key, 5);

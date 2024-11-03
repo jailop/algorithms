@@ -10,6 +10,7 @@
 const std = @import("std");
 const HeapNode = @import("heapnode.zig").HeapNode;
 const heapMerge = @import("heapmerge.zig").heapMerge;
+const heapInsert = @import("heapinsert.zig").heapInsert;
 
 /// Represents a generate leftist tree. It maintains at the root the 
 /// minimum value.
@@ -33,40 +34,11 @@ pub fn HeapTree(T: type) type {
         /// into the tree.
         fn insert(self: *@This(), key: T) !void {
             // Creating a new node
-            var node = try self.allocator.create(HeapNode(T));
+            const node = try self.allocator.create(HeapNode(T));
             node.* = HeapNode(T){.key = key};
-            // Looking for the position in the tree of the new node
             if (self.root) |root| {
-                // Already existis a node as root
-                if (key < root.key) {
-                    // The new value is the minimum in the tree.
-                    // As a consequence, its node is designed as
-                    // the new root. The former root is colocated on
-                    // the left of the new one.
-                    node.left = self.root;
-                    self.root = node;
-                } else {
-                    var current = root;
-                    // Going down by the right until finding a node which value
-                    // is greater the argument `key`
-                    while (current.right) |right| {
-                        if (right.key < key) {
-                            // Left and right are swapped.  The new current is
-                            // set on the previous right, that now it is left.
-                            current.right = current.left;
-                            current.left = right;
-                            current = right;
-                        } else {
-                            break;
-                        }
-                    }
-                    // The new node is inserted between current and its child on
-                    // the right
-                    node.left = current.right;
-                    current.right = node;
-                }
+                self.root = heapInsert(T, root, node); 
             } else {
-                // The tree is empty, so the new node is designated as the root.
                 self.root = node;
             }
         }
@@ -126,14 +98,14 @@ pub fn HeapTree(T: type) type {
         /// Auxiliary function responsible of merging the root's children.
         /// It is also responsible to deallocate the asigned memory to the root.
         fn _deleteMin(self: *@This(), node: ?*HeapNode(T)) ?*HeapNode(T) {
-            var newParent : ?*HeapNode(T) = null;
+            var newRoot : ?*HeapNode(T) = null;
             if (node) |_node| {
                 // Computing the new root
-                newParent = heapMerge(T, _node.left, _node.right);
+                newRoot = heapMerge(T, _node.left, _node.right);
                 // Destroying the current root
                 self.allocator.destroy(_node); 
             }
-            return newParent;
+            return newRoot;
         }
 
         // Prints the tree starting by the root.
@@ -154,10 +126,10 @@ pub fn main() !void {
     var tree = HeapTree(u8){.allocator = allocator};
     defer tree.deinit();
     const keys = [_]u8{
-        30, 32, 29, 23, 8, 11, 28,
+        15, 27, 22, 35, 40, 13, 9,
         10, 5, 6, 3,
         31, 16, 42, 33, 37, 41, 21,
-        15, 27, 22, 35, 40, 13, 9,
+        30, 32, 29, 23, 8, 11, 28,
     };
     
     std.debug.print("\n----- INPUT -----\n", .{});

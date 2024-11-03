@@ -12,14 +12,16 @@ const HeapNode = @import("heapnode.zig").HeapNode;
 
 /// Merges to trees designating the node with the less value a the parent. It
 /// performs the same operation for every children that has two childreen too.
-pub fn heapMerge(T: type, node1: ?*HeapNode(T), node2: ?*HeapNode(T)) ?*HeapNode(T) {
+pub fn heapMerge(T: type, node1: ?*HeapNode(T), node2: ?*HeapNode(T))
+    ?*HeapNode(T)
+{
     // If one node is null, the merge operation cannot be performed. Therefore,
     // the other node is returned.
     if (node1 == null) {
         return node2;
     }
     if (node2 == null) {
-        return node1;
+         return node1;
     }
     // Proceding with the merge operation.
     var root : ?*HeapNode(T) = null;
@@ -65,4 +67,37 @@ pub fn heapMerge(T: type, node1: ?*HeapNode(T), node2: ?*HeapNode(T)) ?*HeapNode
         }
     }
     return root;
+}
+
+// Experimental feature. It is not working yet.
+pub fn heapMergeRecursive(T: type, node1: ?*HeapNode(T), node2: ?*HeapNode(T))
+    ?*HeapNode(T)
+{
+    // If one node is null, the merge operation cannot be performed. Therefore,
+    // the other node is returned.
+    if (node1 == null) {
+        return node2;
+    }
+    // if (node2 == null) {
+    //     return node1;
+    // }
+    if (node1) |node1_| {
+        node1_.right = heapMergeRecursive(T, node1_.right, node2);
+    }
+    if (node1.?.left == null) {
+        if (node1) |node1_| {
+            const tmp = node1_.left;
+            node1_.left = node1_.right;
+            node1_.right = tmp;
+        }
+    }
+//    else {
+//        const left = node1.?.left;
+//        const right = node1.?.right;
+//        if (left.?.key < right.?.key) {
+//            node1.?.right = left;
+//            node1.?.left = right;
+//        }
+//    }
+    return node1;
 }
