@@ -14,21 +14,21 @@ pub fn HeapNode(T: type) type {
         left: ?*@This() = null,
         right: ?*@This() = null,
         
-        // A pretty print function to show the tree in horizontal positon.
+        // A pretty print function to show the tree in a horizontal layout
         pub fn print(self: *@This(), level: usize) void {
                 if (self.left) |leftNode| {
                     leftNode.print(level + 1);
                 }
-                // Based on the deepth level, spaces are inserted before showing
-                // the node information
+
+                // Based on the deepth level, spaces/dashes are inserted before
+                // showing the node information
                 for (1..level + 1) |i| {
-                    var spaces = "    ";
-                    if (i == level) {
-                        spaces = "|---";
-                    }
+                    const spaces = if (i == level) "|---" else "    ";
                     std.debug.print("{s}", .{spaces});
                 }
+                // Printing the value
                 std.debug.print("{}\n", .{self.key});
+
                 if (self.right) |rightNode| {
                     rightNode.print(level + 1);
                 }
