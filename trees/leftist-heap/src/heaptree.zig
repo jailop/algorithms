@@ -33,7 +33,7 @@ pub fn HeapTree(T: type) type {
         fn insert(self: *@This(), key: T) !void {
             // Creating a new node
             const node = try self.allocator.create(HeapNode(T));
-            node.* = HeapNode(T){.key = key};
+            node.* = HeapNode(T){.key = key, .s = 1};
             if (self.root) |root| {
                 self.root = heapInsert(T, root, node); 
             } else {

@@ -11,6 +11,7 @@ const std = @import("std");
 pub fn HeapNode(T: type) type {
     return struct {
         key : T,
+        s: usize = 0,
         left: ?*@This() = null,
         right: ?*@This() = null,
         
