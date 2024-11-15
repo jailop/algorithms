@@ -65,6 +65,5 @@ int main() {
 	h1 = skew_heap_merge(h1, h2);
 	skew_heap_print(h1, 0);
 	skew_heap_free(h1);
-	// skew_heap_free(h2);
 	return 0;
 }
