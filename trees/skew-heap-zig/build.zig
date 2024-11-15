@@ -7,7 +7,7 @@ pub fn build(b: *std.Build) void {
 
     const lib = b.addStaticLibrary(.{
         .name = "skew-heap-zig",
-        .root_source_file = b.path("src/root.zig"),
+        .root_source_file = b.path("src/skewheap.zig"),
         .target = target,
         .optimize = optimize,
     });

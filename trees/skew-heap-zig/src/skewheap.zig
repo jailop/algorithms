@@ -5,6 +5,7 @@
 
 const std = @import("std");
 
+// Heap can ordered by minimum or by maximum
 pub const HeapType = enum {
     MinHeap,
     MaxHeap,
@@ -14,6 +15,7 @@ pub const HeapError = error {
     EmptyHeap,
 };
 
+// This function can be used for comparable scalars.
 fn DefaultCompareFn(T: type) *const fn(T, T) i8 {
     const DF = struct {
         func: *const fn(T, T) i8 = @This().defaultCompareFn,
@@ -33,16 +35,17 @@ fn DefaultCompareFn(T: type) *const fn(T, T) i8 {
 pub fn SkewHeap(T: type) type {
     return struct {
         const Self = @This();
+
         pub const Node = struct {
             data: T,
             left: ?*Node = null,
             right: ?*Node = null,
         };
+
         root: ?*Node = null,
         heap_type: HeapType,
         compareFn: *const fn(T, T) i8,
         allocator: std.mem.Allocator,
-
 
         pub fn init(allocator: std.mem.Allocator, heap_type: HeapType, comptime compareFn: ?*const fn(T, T) i8) Self {
             if (compareFn == null) {
@@ -64,6 +67,8 @@ pub fn SkewHeap(T: type) type {
             self.deleteNode(self.root);
         }
 
+        // This is the delete function for a binary tree. It
+        // is provided to clean up the allocated memory.
         fn deleteNode(self: *Self, node: ?*Self.Node) void {
             if (node) |nd| {
                 self.deleteNode(nd.left);
@@ -151,6 +156,7 @@ test "Skew Tree" {
     }
 }
 
+// For Testing
 const Point = struct {
     x: f32,
     y: f32,
@@ -159,6 +165,7 @@ const Point = struct {
     }
 };
 
+// For Testing
 fn compPoint(point1: Point, point2: Point) i8 {
     const d1 = point1.dist();
     const d2 = point2.dist();
@@ -186,6 +193,7 @@ test "Struc Test" {
     for (0..points.len) |_| {
         const p = try heap.removeRoot();
         const d = p.dist();
+        // The next value shuld be lower than the previous one
         try std.testing.expect(d < prev);
         prev = d; 
     }
